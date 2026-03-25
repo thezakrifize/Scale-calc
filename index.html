@@ -1,152 +1,370 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Map Scale Exercises</title>
-
-<style>
-body {
-  font-family: Arial;
-  max-width: 900px;
-  margin: auto;
-  padding: 20px;
-  background: #f4f6fb;
-}
-
-h1 {
-  text-align: center;
-  color: #0d47a1;
-}
-
-.box {
-  background: white;
-  padding: 20px;
-  margin-top: 20px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-button {
-  margin-top: 10px;
-  padding: 10px;
-  width: 100%;
-  border: none;
-  border-radius: 8px;
-  background: #1565c0;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #0d47a1;
-}
-
-.step {
-  background: #e3f2fd;
-  padding: 10px;
-  margin-top: 10px;
-  border-left: 5px solid #1565c0;
-  border-radius: 8px;
-}
-
-.answer {
-  background: #e8f5e9;
-  padding: 12px;
-  margin-top: 10px;
-  border-left: 5px solid #2e7d32;
-  border-radius: 8px;
-  font-weight: bold;
-}
-
-.hidden {
-  display: none;
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Speed & Conversion Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6fb;
+      margin: 0;
+      padding: 20px;
+      color: #222;
+    }
+    .container {
+      max-width: 1100px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+      color: #123a8c;
+      margin-bottom: 24px;
+    }
+    .section {
+      background: #fff;
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    }
+    h2 {
+      margin-top: 0;
+      color: #1c3faa;
+    }
+    h3 {
+      color: #333;
+      margin-bottom: 8px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 14px;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #cbd2e1;
+      border-radius: 8px;
+      box-sizing: border-box;
+      font-size: 15px;
+    }
+    button {
+      background: #1c3faa;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    button:hover {
+      background: #15327f;
+    }
+    .result {
+      margin-top: 14px;
+      padding: 12px;
+      background: #eef4ff;
+      border-left: 5px solid #1c3faa;
+      border-radius: 8px;
+      white-space: pre-line;
+    }
+    .formula {
+      background: #f8f9fc;
+      border: 1px dashed #c7d0e3;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      line-height: 1.6;
+    }
+    .small {
+      font-size: 14px;
+      color: #555;
+    }
+  </style>
 </head>
-
 <body>
+  <div class="container">
+    <h1>Speed, Scale & Conversion Calculator</h1>
 
-<h1>Map Scale Exercises</h1>
+    <!-- SPEED -->
+    <div class="section">
+      <h2>1) Speed Calculator</h2>
+      <div class="formula">
+        <strong>สูตรที่ใช้</strong><br>
+        GS = TAS ± Wind Component<br>
+        (-) = Headwind, (+) = Tailwind<br><br>
 
-<!-- EX 0 -->
-<div class="box">
-<h2>Ex.0</h2>
-<p>
-A chart has a scale of <b>1 : 1,000,000</b><br>
-How many nautical miles does <b>10 inches</b> represent?
-</p>
+        LSS = 39 × √(T°K)<br>
+        โดย T°K = OAT(°C) + 273<br><br>
 
-<button onclick="showSteps0()">แสดงวิธีทำ</button>
+        MN = TAS / LSS
+      </div>
 
-<div id="steps0" class="hidden">
+      <div class="grid">
+        <div>
+          <h3>Groundspeed (GS)</h3>
+          <label>TAS</label>
+          <input type="number" id="tasGS" placeholder="เช่น 450" />
 
-<div class="step">
-<b>Step 1:</b><br>
-RF = CL / ED<br>
-ED = CL × RF<br>
-= 10 × 1,000,000 = <b>10,000,000 inches</b>
-</div>
+          <label>Wind Component</label>
+          <input type="number" id="windComponent" placeholder="เช่น 50" />
 
-<div class="step">
-<b>Step 2:</b><br>
-1 NM = <b>72,960 inches</b>
-</div>
+          <label>Wind Type</label>
+          <select id="windType">
+            <option value="head">Headwind (-)</option>
+            <option value="tail">Tailwind (+)</option>
+          </select>
 
-<div class="step">
-<b>Step 3:</b><br>
-Distance = 10,000,000 ÷ 72,960<br>
-= <b>137.1 NM</b>
-</div>
+          <button onclick="calculateGS()">คำนวณ GS</button>
+          <div class="result" id="gsResult">ผลลัพธ์จะแสดงตรงนี้</div>
+        </div>
 
-<div class="answer">
-Answer ≈ 137 NM
-</div>
+        <div>
+          <h3>LSS และ Mach Number</h3>
+          <label>TAS</label>
+          <input type="number" id="tasMN" placeholder="เช่น 510" />
 
-</div>
-</div>
+          <label>OAT / Outside Air Temperature (°C)</label>
+          <input type="number" id="oat" placeholder="เช่น -31" />
 
-<!-- EX 1 -->
-<div class="box">
-<h2>Ex.1</h2>
-<p>
-A chart scale is given as <b>1 cm = 1 km</b><br>
-What is the scale of the chart?
-</p>
+          <button onclick="calculateMach()">คำนวณ LSS และ MN</button>
+          <div class="result" id="machResult">ผลลัพธ์จะแสดงตรงนี้</div>
+        </div>
+      </div>
+    </div>
 
-<button onclick="showSteps1()">แสดงวิธีทำ</button>
+    <!-- SCALE -->
+    <div class="section">
+      <h2>2) Scale / RF Calculator</h2>
+      <div class="formula">
+        <strong>Representative Fraction (RF)</strong> = Chart Length / Earth Distance<br>
+        เช่น RF 1:300000 หมายถึง 1 หน่วยบนแผนที่ = 300000 หน่วยบนพื้นโลก
+      </div>
 
-<div id="steps1" class="hidden">
+      <div class="grid">
+        <div>
+          <label>RF Denominator</label>
+          <input type="number" id="rfDenominator" placeholder="เช่น 300000" />
 
-<div class="step">
-<b>Step 1:</b><br>
-แปลงหน่วยให้เหมือนกัน<br>
-1 km = <b>100,000 cm</b>
-</div>
+          <label>Chart Length</label>
+          <input type="number" id="chartLength" placeholder="เช่น 6" />
 
-<div class="step">
-<b>Step 2:</b><br>
-RF = CL / ED<br>
-= 1 / 100,000
-</div>
+          <label>Chart Unit</label>
+          <select id="chartUnit">
+            <option value="cm">cm</option>
+            <option value="in">inch</option>
+          </select>
 
-<div class="answer">
-Answer = 1 : 100,000
-</div>
+          <label>Output Earth Unit</label>
+          <select id="earthUnit">
+            <option value="km">km</option>
+            <option value="nm">NM</option>
+            <option value="m">m</option>
+            <option value="cm">cm</option>
+            <option value="in">inch</option>
+          </select>
 
-</div>
-</div>
+          <button onclick="calculateScale()">คำนวณ Scale</button>
+          <div class="result" id="scaleResult">ผลลัพธ์จะแสดงตรงนี้</div>
+        </div>
+      </div>
+    </div>
 
-<script>
-function showSteps0() {
-  document.getElementById("steps0").classList.toggle("hidden");
-}
+    <!-- CONVERSION -->
+    <div class="section">
+      <h2>3) Conversion Factors Calculator</h2>
+      <div class="formula">
+        <strong>ค่าที่รองรับจากรูป</strong><br>
+        1 NM = 72960 in = 6076 ft = 1.852 km = 1852 m<br>
+        1 km = 1000 m = 100000 cm = 3280 ft<br>
+        1 m = 3.28 ft = 100 cm<br>
+        1 cm = 10 mm<br>
+        1 in = 2.54 cm<br>
+        1 ft = 12 in<br>
+        1 Statute Mile = 5280 ft
+      </div>
 
-function showSteps1() {
-  document.getElementById("steps1").classList.toggle("hidden");
-}
-</script>
+      <div class="grid">
+        <div>
+          <label>Value</label>
+          <input type="number" id="convValue" placeholder="เช่น 8" />
 
+          <label>From</label>
+          <select id="fromUnit">
+            <option value="nm">NM</option>
+            <option value="km">km</option>
+            <option value="m">m</option>
+            <option value="cm">cm</option>
+            <option value="mm">mm</option>
+            <option value="in">inch</option>
+            <option value="ft">ft</option>
+            <option value="sm">Statute Mile</option>
+          </select>
+
+          <label>To</label>
+          <select id="toUnit">
+            <option value="nm">NM</option>
+            <option value="km">km</option>
+            <option value="m">m</option>
+            <option value="cm">cm</option>
+            <option value="mm">mm</option>
+            <option value="in">inch</option>
+            <option value="ft">ft</option>
+            <option value="sm">Statute Mile</option>
+          </select>
+
+          <button onclick="convertUnits()">แปลงหน่วย</button>
+          <div class="result" id="convResult">ผลลัพธ์จะแสดงตรงนี้</div>
+        </div>
+      </div>
+      <p class="small">
+        หมายเหตุ: โปรแกรมนี้แปลงโดยอิงค่าตามสไลด์ที่จ๊อบส่งมา
+      </p>
+    </div>
+  </div>
+
+  <script>
+    function round(value, digits = 4) {
+      return Number(value).toFixed(digits).replace(/\.?0+$/, '');
+    }
+
+    function calculateGS() {
+      const tas = parseFloat(document.getElementById("tasGS").value);
+      const wind = parseFloat(document.getElementById("windComponent").value);
+      const windType = document.getElementById("windType").value;
+      const result = document.getElementById("gsResult");
+
+      if (isNaN(tas) || isNaN(wind)) {
+        result.innerText = "กรุณาใส่ TAS และ Wind Component ให้ครบ";
+        return;
+      }
+
+      let gs = windType === "head" ? tas - wind : tas + wind;
+
+      result.innerText =
+        `GS = TAS ${windType === "head" ? "-" : "+"} Wind Component
+= ${tas} ${windType === "head" ? "-" : "+"} ${wind}
+= ${round(gs)}
+
+ดังนั้น Groundspeed = ${round(gs)}`;
+    }
+
+    function calculateMach() {
+      const tas = parseFloat(document.getElementById("tasMN").value);
+      const oat = parseFloat(document.getElementById("oat").value);
+      const result = document.getElementById("machResult");
+
+      if (isNaN(tas) || isNaN(oat)) {
+        result.innerText = "กรุณาใส่ TAS และ OAT ให้ครบ";
+        return;
+      }
+
+      const kelvin = oat + 273;
+      if (kelvin <= 0) {
+        result.innerText = "ค่า Kelvin ต้องมากกว่า 0";
+        return;
+      }
+
+      const lss = 39 * Math.sqrt(kelvin);
+      const mn = tas / lss;
+
+      result.innerText =
+        `T°K = OAT + 273
+= ${oat} + 273
+= ${round(kelvin)}
+
+LSS = 39 × √(T°K)
+= 39 × √${round(kelvin)}
+= ${round(lss, 3)}
+
+MN = TAS / LSS
+= ${tas} / ${round(lss, 3)}
+= ${round(mn, 4)}
+
+ดังนั้น
+LSS = ${round(lss, 3)}
+Mach Number = ${round(mn, 4)}`;
+    }
+
+    function toMeters(value, unit) {
+      const factors = {
+        nm: 1852,
+        km: 1000,
+        m: 1,
+        cm: 0.01,
+        mm: 0.001,
+        in: 0.0254,
+        ft: 0.3048,
+        sm: 1609.344
+      };
+      return value * factors[unit];
+    }
+
+    function fromMeters(valueInMeters, unit) {
+      const factors = {
+        nm: 1852,
+        km: 1000,
+        m: 1,
+        cm: 0.01,
+        mm: 0.001,
+        in: 0.0254,
+        ft: 0.3048,
+        sm: 1609.344
+      };
+      return valueInMeters / factors[unit];
+    }
+
+    function convertUnits() {
+      const value = parseFloat(document.getElementById("convValue").value);
+      const fromUnit = document.getElementById("fromUnit").value;
+      const toUnit = document.getElementById("toUnit").value;
+      const result = document.getElementById("convResult");
+
+      if (isNaN(value)) {
+        result.innerText = "กรุณาใส่ค่าที่ต้องการแปลง";
+        return;
+      }
+
+      const meters = toMeters(value, fromUnit);
+      const converted = fromMeters(meters, toUnit);
+
+      result.innerText =
+        `${value} ${fromUnit} = ${round(converted, 6)} ${toUnit}`;
+    }
+
+    function calculateScale() {
+      const rf = parseFloat(document.getElementById("rfDenominator").value);
+      const chartLength = parseFloat(document.getElementById("chartLength").value);
+      const chartUnit = document.getElementById("chartUnit").value;
+      const earthUnit = document.getElementById("earthUnit").value;
+      const result = document.getElementById("scaleResult");
+
+      if (isNaN(rf) || isNaN(chartLength)) {
+        result.innerText = "กรุณาใส่ RF denominator และ Chart Length ให้ครบ";
+        return;
+      }
+
+      let chartMeters;
+
+      if (chartUnit === "cm") {
+        chartMeters = chartLength / 100;
+      } else if (chartUnit === "in") {
+        chartMeters = chartLength * 0.0254;
+      }
+
+      const earthMeters = chartMeters * rf;
+      const output = fromMeters(earthMeters, earthUnit);
+
+      result.innerText =
+        `Earth Distance = Chart Length × RF
+= ${chartLength} ${chartUnit} × 1:${rf}
+= ${round(output, 6)} ${earthUnit}`;
+    }
+  </script>
 </body>
 </html>
