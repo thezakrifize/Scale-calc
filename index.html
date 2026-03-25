@@ -1,304 +1,152 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Map Scale / RF Calculator</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 950px;
-      margin: 20px auto;
-      padding: 20px;
-      background: #f5f7fb;
-      color: #222;
-    }
-    h1 {
-      text-align: center;
-      color: #0d47a1;
-    }
-    h2 {
-      margin-top: 30px;
-      color: #1565c0;
-    }
-    .box {
-      background: #fff;
-      padding: 18px;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      margin-bottom: 20px;
-    }
-    label {
-      display: block;
-      margin-top: 10px;
-      font-weight: bold;
-    }
-    input, select, button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 6px;
-      border: 1px solid #bbb;
-      border-radius: 8px;
-      font-size: 16px;
-      box-sizing: border-box;
-    }
-    button {
-      background: #1565c0;
-      color: white;
-      border: none;
-      cursor: pointer;
-      margin-top: 14px;
-    }
-    button:hover {
-      background: #0d47a1;
-    }
-    .result {
-      margin-top: 15px;
-      padding: 12px;
-      background: #e3f2fd;
-      border-left: 5px solid #1565c0;
-      border-radius: 8px;
-      white-space: pre-line;
-    }
-    .formula {
-      background: #f1f8e9;
-      padding: 10px;
-      border-radius: 8px;
-      margin-top: 10px;
-      font-weight: bold;
-    }
-    .small {
-      font-size: 14px;
-      color: #555;
-    }
-    ul {
-      margin-top: 10px;
-      line-height: 1.7;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Map Scale Exercises</title>
+
+<style>
+body {
+  font-family: Arial;
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+  background: #f4f6fb;
+}
+
+h1 {
+  text-align: center;
+  color: #0d47a1;
+}
+
+.box {
+  background: white;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+button {
+  margin-top: 10px;
+  padding: 10px;
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+  background: #1565c0;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #0d47a1;
+}
+
+.step {
+  background: #e3f2fd;
+  padding: 10px;
+  margin-top: 10px;
+  border-left: 5px solid #1565c0;
+  border-radius: 8px;
+}
+
+.answer {
+  background: #e8f5e9;
+  padding: 12px;
+  margin-top: 10px;
+  border-left: 5px solid #2e7d32;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.hidden {
+  display: none;
+}
+</style>
 </head>
+
 <body>
-  <h1>Map Scale / Representative Fraction (RF) Calculator</h1>
 
-  <div class="box">
-    <div class="formula">
-      RF = Chart Length (CL) / Earth Distance (ED)
-    </div>
-    <p class="small">
-      หมายเหตุ: ตอนคำนวณ RF ต้องแปลง Chart Length และ Earth Distance ให้อยู่ในหน่วยเดียวกันก่อน
-    </p>
-  </div>
+<h1>Map Scale Exercises</h1>
 
-  <!-- RF Calculator -->
-  <div class="box">
-    <h2>1) คำนวณ RF จาก CL และ ED</h2>
+<!-- EX 0 -->
+<div class="box">
+<h2>Ex.0</h2>
+<p>
+A chart has a scale of <b>1 : 1,000,000</b><br>
+How many nautical miles does <b>10 inches</b> represent?
+</p>
 
-    <label>Chart Length (CL)</label>
-    <input type="number" id="clValue" step="any" placeholder="เช่น 10" />
-    <select id="clUnit">
-      <option value="cm">cm</option>
-      <option value="m">m</option>
-      <option value="km">km</option>
-      <option value="in">in</option>
-      <option value="ft">ft</option>
-      <option value="nm">NM</option>
-    </select>
+<button onclick="showSteps0()">แสดงวิธีทำ</button>
 
-    <label>Earth Distance (ED)</label>
-    <input type="number" id="edValue" step="any" placeholder="เช่น 1000000" />
-    <select id="edUnit">
-      <option value="cm">cm</option>
-      <option value="m">m</option>
-      <option value="km">km</option>
-      <option value="in">in</option>
-      <option value="ft">ft</option>
-      <option value="nm">NM</option>
-    </select>
+<div id="steps0" class="hidden">
 
-    <button onclick="calculateRF()">คำนวณ RF</button>
-    <div class="result" id="rfResult">ผลลัพธ์จะแสดงตรงนี้</div>
-  </div>
+<div class="step">
+<b>Step 1:</b><br>
+RF = CL / ED<br>
+ED = CL × RF<br>
+= 10 × 1,000,000 = <b>10,000,000 inches</b>
+</div>
 
-  <!-- Earth Distance Calculator -->
-  <div class="box">
-    <h2>2) คำนวณ Earth Distance จาก RF และ CL</h2>
+<div class="step">
+<b>Step 2:</b><br>
+1 NM = <b>72,960 inches</b>
+</div>
 
-    <label>RF denominator (ในรูป 1 : n)</label>
-    <input type="number" id="rfDenom1" step="any" placeholder="เช่น 1000000" />
+<div class="step">
+<b>Step 3:</b><br>
+Distance = 10,000,000 ÷ 72,960<br>
+= <b>137.1 NM</b>
+</div>
 
-    <label>Chart Length (CL)</label>
-    <input type="number" id="cl2Value" step="any" placeholder="เช่น 6" />
-    <select id="cl2Unit">
-      <option value="cm">cm</option>
-      <option value="m">m</option>
-      <option value="km">km</option>
-      <option value="in">in</option>
-      <option value="ft">ft</option>
-      <option value="nm">NM</option>
-    </select>
+<div class="answer">
+Answer ≈ 137 NM
+</div>
 
-    <label>ต้องการแสดงคำตอบเป็นหน่วย</label>
-    <select id="edOutUnit">
-      <option value="cm">cm</option>
-      <option value="m">m</option>
-      <option value="km">km</option>
-      <option value="in">in</option>
-      <option value="ft">ft</option>
-      <option value="nm">NM</option>
-    </select>
+</div>
+</div>
 
-    <button onclick="calculateED()">คำนวณ Earth Distance</button>
-    <div class="result" id="edResult">ผลลัพธ์จะแสดงตรงนี้</div>
-  </div>
+<!-- EX 1 -->
+<div class="box">
+<h2>Ex.1</h2>
+<p>
+A chart scale is given as <b>1 cm = 1 km</b><br>
+What is the scale of the chart?
+</p>
 
-  <!-- Chart Length Calculator -->
-  <div class="box">
-    <h2>3) คำนวณ Chart Length จาก RF และ ED</h2>
+<button onclick="showSteps1()">แสดงวิธีทำ</button>
 
-    <label>RF denominator (ในรูป 1 : n)</label>
-    <input type="number" id="rfDenom2" step="any" placeholder="เช่น 300000" />
+<div id="steps1" class="hidden">
 
-    <label>Earth Distance (ED)</label>
-    <input type="number" id="ed2Value" step="any" placeholder="เช่น 8" />
-    <select id="ed2Unit">
-      <option value="cm">cm</option>
-      <option value="m">m</option>
-      <option value="km">km</option>
-      <option value="in">in</option>
-      <option value="ft">ft</option>
-      <option value="nm">NM</option>
-    </select>
+<div class="step">
+<b>Step 1:</b><br>
+แปลงหน่วยให้เหมือนกัน<br>
+1 km = <b>100,000 cm</b>
+</div>
 
-    <label>ต้องการแสดงคำตอบเป็นหน่วย</label>
-    <select id="clOutUnit">
-      <option value="cm">cm</option>
-      <option value="m">m</option>
-      <option value="km">km</option>
-      <option value="in">in</option>
-      <option value="ft">ft</option>
-      <option value="nm">NM</option>
-    </select>
+<div class="step">
+<b>Step 2:</b><br>
+RF = CL / ED<br>
+= 1 / 100,000
+</div>
 
-    <button onclick="calculateCL()">คำนวณ Chart Length</button>
-    <div class="result" id="clResult">ผลลัพธ์จะแสดงตรงนี้</div>
-  </div>
+<div class="answer">
+Answer = 1 : 100,000
+</div>
 
-  <!-- Conversion -->
-  <div class="box">
-    <h2>Conversion Factors ที่ใช้ในโปรแกรม</h2>
-    <ul>
-      <li>1 NM = 1852 m = 1.852 km = 6076 ft = 72960 in</li>
-      <li>1 km = 1000 m = 100000 cm</li>
-      <li>1 m = 100 cm = 3.28084 ft</li>
-      <li>1 in = 2.54 cm</li>
-      <li>1 ft = 12 in</li>
-      <li>1 Statute Mile = 5280 ft</li>
-    </ul>
-  </div>
+</div>
+</div>
 
-  <script>
-    function toMeters(value, unit) {
-      value = parseFloat(value);
-      switch (unit) {
-        case "cm": return value / 100;
-        case "m": return value;
-        case "km": return value * 1000;
-        case "in": return value * 0.0254;
-        case "ft": return value * 0.3048;
-        case "nm": return value * 1852;
-        default: return NaN;
-      }
-    }
+<script>
+function showSteps0() {
+  document.getElementById("steps0").classList.toggle("hidden");
+}
 
-    function fromMeters(value, unit) {
-      switch (unit) {
-        case "cm": return value * 100;
-        case "m": return value;
-        case "km": return value / 1000;
-        case "in": return value / 0.0254;
-        case "ft": return value / 0.3048;
-        case "nm": return value / 1852;
-        default: return NaN;
-      }
-    }
+function showSteps1() {
+  document.getElementById("steps1").classList.toggle("hidden");
+}
+</script>
 
-    function formatNumber(num) {
-      return Number(num).toLocaleString(undefined, {
-        maximumFractionDigits: 6
-      });
-    }
-
-    function calculateRF() {
-      const clValue = document.getElementById("clValue").value;
-      const clUnit = document.getElementById("clUnit").value;
-      const edValue = document.getElementById("edValue").value;
-      const edUnit = document.getElementById("edUnit").value;
-      const resultBox = document.getElementById("rfResult");
-
-      if (!clValue || !edValue || parseFloat(clValue) <= 0 || parseFloat(edValue) <= 0) {
-        resultBox.innerText = "กรุณาใส่ค่าที่มากกว่า 0";
-        return;
-      }
-
-      const clMeters = toMeters(clValue, clUnit);
-      const edMeters = toMeters(edValue, edUnit);
-
-      const rf = clMeters / edMeters;
-      const denominator = 1 / rf;
-
-      resultBox.innerText =
-        `แปลงหน่วยก่อน:\n` +
-        `CL = ${formatNumber(clMeters)} m\n` +
-        `ED = ${formatNumber(edMeters)} m\n\n` +
-        `RF = CL / ED = ${formatNumber(clMeters)} / ${formatNumber(edMeters)} = ${rf}\n\n` +
-        `ดังนั้น RF ≈ 1 : ${formatNumber(denominator)}`;
-    }
-
-    function calculateED() {
-      const rfDenom = parseFloat(document.getElementById("rfDenom1").value);
-      const clValue = document.getElementById("cl2Value").value;
-      const clUnit = document.getElementById("cl2Unit").value;
-      const outUnit = document.getElementById("edOutUnit").value;
-      const resultBox = document.getElementById("edResult");
-
-      if (!rfDenom || !clValue || rfDenom <= 0 || parseFloat(clValue) <= 0) {
-        resultBox.innerText = "กรุณาใส่ค่าที่มากกว่า 0";
-        return;
-      }
-
-      const clMeters = toMeters(clValue, clUnit);
-      const edMeters = clMeters * rfDenom;
-      const edOut = fromMeters(edMeters, outUnit);
-
-      resultBox.innerText =
-        `สูตร:\nED = CL × RF denominator\n\n` +
-        `CL = ${formatNumber(clMeters)} m\n` +
-        `ED = ${formatNumber(clMeters)} × ${formatNumber(rfDenom)} = ${formatNumber(edMeters)} m\n\n` +
-        `คำตอบ = ${formatNumber(edOut)} ${outUnit}`;
-    }
-
-    function calculateCL() {
-      const rfDenom = parseFloat(document.getElementById("rfDenom2").value);
-      const edValue = document.getElementById("ed2Value").value;
-      const edUnit = document.getElementById("ed2Unit").value;
-      const outUnit = document.getElementById("clOutUnit").value;
-      const resultBox = document.getElementById("clResult");
-
-      if (!rfDenom || !edValue || rfDenom <= 0 || parseFloat(edValue) <= 0) {
-        resultBox.innerText = "กรุณาใส่ค่าที่มากกว่า 0";
-        return;
-      }
-
-      const edMeters = toMeters(edValue, edUnit);
-      const clMeters = edMeters / rfDenom;
-      const clOut = fromMeters(clMeters, outUnit);
-
-      resultBox.innerText =
-        `สูตร:\nCL = ED / RF denominator\n\n` +
-        `ED = ${formatNumber(edMeters)} m\n` +
-        `CL = ${formatNumber(edMeters)} / ${formatNumber(rfDenom)} = ${formatNumber(clMeters)} m\n\n` +
-        `คำตอบ = ${formatNumber(clOut)} ${outUnit}`;
-    }
-  </script>
 </body>
 </html>
